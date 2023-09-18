@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">Meals for {{ date.strftime('%A, %B %d, %Y') }}</h1>
+
+        <a href="{{ shopping_list_url }}" class="btn btn-primary mb-4">Generate Shopping List</a>
+
+        <div class="mb-3">
+            <a href="{{ url_for('add_meal', date=date.isoformat()) }}" class="btn btn-success">Add Meal</a>
+        </div>
+
+        <ul class="list-group">
+            {% for meal in meals %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ meal.name }} ({{ meal.meal_type }})
+                    <a href="{{ url_for('delete_meal', id=meal.id) }}" class="text-danger">&times;</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

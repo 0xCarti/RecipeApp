@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">My Calendar - {{ month_name }}</h1>
+
+        <!-- Navigation buttons -->
+        <div class="mb-3">
+            <a href="{{ url_for('calendar', year=prev_year, month=prev_month) }}" class="btn btn-secondary">← Previous</a>
+            <a href="{{ url_for('calendar', year=next_year, month=next_month) }}" class="btn btn-secondary ms-2">Next →</a>
+        </div>
+
+        <!-- Calendar table -->
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for week in calendar_data %}
+                <tr>
+                    {% for day in week %}
+                        <td>
+                            {% if day != 0 %}
+                                <a href="{{ url_for('day_view', date=day) }}" class="d-block text-decoration-none text-dark" style="height: 100%;" role="button">
+                                    <div style="height: 100%;">
+                                        {{ day.split('-')[2].removeprefix('0') }}
+                                    </div>
+                                </a>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

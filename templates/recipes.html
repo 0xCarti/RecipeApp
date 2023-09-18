@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">Your Recipes</h1>
+        <a href="{{ url_for('new_recipe') }}" class="btn btn-primary mb-4">Create New Recipe</a>
+        <ul class="list-group">
+            {% for recipe in recipes %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <a href="{{ url_for('recipe', id=recipe.id) }}">{{ recipe.name }}</a>
+                    <div>
+                        <a href="{{ url_for('recipe', id=recipe.id) }}" class="btn btn-secondary btn-sm">Edit</a>
+                        <form action="{{ url_for('delete_recipe', id=recipe.id) }}" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

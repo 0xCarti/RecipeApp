@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Settings</h1>
+    
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        
+        <div class="mb-3">
+            {{ form.preferred_dry_unit.label(class="form-label") }}
+            {{ form.preferred_dry_unit(class="form-control") }}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.preferred_liquid_unit.label(class="form-label") }}
+            {{ form.preferred_liquid_unit(class="form-control") }}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.preferred_weight_unit.label(class="form-label") }}
+            {{ form.preferred_weight_unit(class="form-control") }}
+        </div>
+        
+        <div class="mb-3">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">{{ recipe.name }}</h1>
+        <p>Preparation Time: {{ recipe.prep_time }}</p>
+        <p>Cooking Time: {{ recipe.cook_time }}</p>
+
+        <h2 class="my-4">Ingredients</h2>
+        <form method="POST" class="row g-3">
+            {{ ingredient_form.hidden_tag() }}
+            <div class="col-md-4">
+                {{ ingredient_form.ingredient_id.label(class="form-label") }}
+                {{ ingredient_form.ingredient_id(class="form-select", id="ingredient_id") }}
+            </div>
+            <div class="col-md-3">
+                {{ ingredient_form.quantity.label(class="form-label") }}
+                {{ ingredient_form.quantity(class="form-control") }}
+            </div>
+            <div class="col-md-3">
+                {{ ingredient_form.unit.label(class="form-label") }}
+                {{ ingredient_form.unit(class="form-control", id="unit") }}
+            </div>
+            <div class="col-md-2">
+                {{ ingredient_form.submit(value='Add Ingredient', class="btn btn-primary mt-4") }}
+            </div>
+        </form>
+        <ul class="list-group">
+            {% for ingredient in ingredients %}
+                <li class="list-group-item">
+                    {{ ingredient.quantity }} {{ ingredient.unit }} of {{ ingredient.ingredient.name }}
+                    <a href="{{ url_for('edit_recipe_ingredient', recipe_id=recipe.id, id=ingredient.id) }}" class="btn btn-secondary btn-sm ms-2">Edit</a>
+                    <form action="{{ url_for('delete_recipe_ingredient', recipe_id=recipe.id, id=ingredient.id) }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm ms-2">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2 class="my-4">Preparation Steps</h2>
+        <form method="POST">
+            {{ step_form.hidden_tag() }}
+            <div class="mb-3">
+                {{ step_form.step_text.label(class="form-label") }}
+                {{ step_form.step_text(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ step_form.submit(value='Add Prep Step', class="btn btn-primary") }}
+            </div>
+        </form>
+        <ol>
+            {% for step in prep_steps %}
+                <li>
+                    {{ step.step_text }}
+                    <a href="{{ url_for('edit_recipe_step', recipe_id=recipe.id, id=step.id, type='prep') }}" class="btn btn-secondary btn-sm ms-2">Edit</a>
+                    <form action="{{ url_for('delete_recipe_step', recipe_id=recipe.id, id=step.id, type='prep') }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm ms-2">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ol>
+
+        <h2 class="my-4">Cooking Steps</h2>
+        <form method="POST">
+            {{ step_form.hidden_tag() }}
+            <div class="mb-3">
+                {{ step_form.step_text.label(class="form-label") }}
+                {{ step_form.step_text(class="form-control") }}
+            </div>
+            <div class="mb-3">
+                {{ step_form.submit(value='Add Cook Step', class="btn btn-primary") }}
+            </div>
+        </form>
+        <ol>
+            {% for step in cook_steps %}
+                <li>
+                    {{ step.step_text }}
+                    <a href="{{ url_for('edit_recipe_step', recipe_id=recipe.id, id=step.id, type='cook') }}" class="btn btn-secondary btn-sm ms-2">Edit</a>
+                    <form action="{{ url_for('delete_recipe_step', recipe_id=recipe.id, id=step.id, type='cook') }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm ms-2">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const ingredientField = document.querySelector('#{{ ingredient_form.ingredient_id.id }}');
+            const unitField = document.querySelector('#{{ ingredient_form.unit.id }}');
+
+            function updateUnits() {
+                console.log('Updating units...');
+                fetch(`/get_units/${ingredientField.value}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        unitField.innerHTML = data.map(unit => `<option value="${unit}">${unit}</option>`).join('');
+                    });
+            }
+
+            ingredientField.addEventListener('change', updateUnits);
+
+            // Trigger the updateUnits function when the page loads to populate the unit field for the default ingredient
+            updateUnits();
+        });
+    </script>
+{% endblock %}

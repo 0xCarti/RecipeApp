@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Edit Ingredient in {{ recipe.name }}</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.ingredient_id.label(class="form-label") }}
+            {{ form.ingredient_id(class="form-select") }}
+        </div>
+        <div class="mb-3">
+            {{ form.quantity.label(class="form-label") }}
+            {{ form.quantity(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.unit.label(class="form-label") }}
+            {{ form.unit(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

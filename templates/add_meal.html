@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Add Meal</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.name.label(class="form-label") }}
+            {{ form.name(class="form-control") }}
+        </div>
+        <div class="mb-3">
+            {{ form.meal_type.label(class="form-label") }}
+            {{ form.meal_type(class="form-select") }}
+        </div>
+        <div class="mb-3">
+            {{ form.recipe_id.label(class="form-label") }}
+            {{ form.recipe_id(class="form-select") }}
+        </div>
+        <div class="mb-3">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

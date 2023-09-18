@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Shopping List</h1>
+    <p>Shopping list for the period: {{ today.isoformat() }} to {{ selected_date.isoformat() }}</p>
+    <ul class="list-group">
+        {% for ingredient, quantity in aggregated_ingredients.items() %}
+            <li class="list-group-item">
+                {{ ingredient }}: 
+                {% if quantity is iterable %}
+                    {% for q in quantity %}
+                        {{ q }}
+                    {% endfor %}
+                {% else %}
+                    {{ quantity }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -402,6 +402,7 @@ def shopping_list():
                 preferred_unit = preferred_dry_unit
             elif category == 'liquid':
                 preferred_unit = preferred_liquid_unit
+                print(f'{preferred_unit} - {preferred_liquid_unit}')
             else:  # category == 'weight'
                 preferred_unit = preferred_weight_unit
 
